@@ -85,24 +85,35 @@ app.get("/blogUpdate/:id", (req, res) => {
 });
 
 app.post("/blogUpdate/:id", (req, res) => {
-  BlogsDB.findById(req.params.id)
-    .then((data) => {
-      data.title = req.body.title;
-      data.body = req.body.body;
-      data
-        .save()
-        .then(() => {
-          res.redirect("/createUsers");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  BlogsDB.findByIdAndUpdate(req.params.id, {
+    title: req.body.title,
+    body: req.body.body,
+  })
+    .then(() => {
+      res.redirect("/createUsers");
     })
     .catch((err) => {
       console.log(err);
     });
 });
-//testing port 8080
+//testing port 5050
 app.listen(5050, () => {
   console.log("Server is running on port 5050");
 });
+
+// BlogsDB.findById(req.params.id)
+//     .then((data) => {
+//       data.title = req.body.title;
+//       data.body = req.body.body;
+//       data
+//         .save()
+//         .then(() => {
+//           res.redirect("/createUsers");
+//         })
+//         .catch((err) => {
+//           console.log(err);
+//         });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
