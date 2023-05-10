@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon ./controllers/app.js"
-
+    "start": "node ./controllers/app.js"
   },
   "repository": {
     "type": "git",

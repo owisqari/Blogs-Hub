@@ -96,24 +96,9 @@ app.post("/blogUpdate/:id", (req, res) => {
       console.log(err);
     });
 });
-//testing port 5050
-app.listen(5050, () => {
+
+const port = process.env.PORT || 8080;
+//testing port 8080
+app.listen(port, () => {
   console.log("Server is running on port 5050");
 });
-
-// BlogsDB.findById(req.params.id)
-//     .then((data) => {
-//       data.title = req.body.title;
-//       data.body = req.body.body;
-//       data
-//         .save()
-//         .then(() => {
-//           res.redirect("/createUsers");
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
