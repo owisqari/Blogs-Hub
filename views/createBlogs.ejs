@@ -45,7 +45,7 @@ background-size: cover;font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-s
   <body>
     <div class="h-25">
       <div class="box">
-        <h1 style="font-size: 80px">Create User</h1>
+        <h1 style="font-size: 80px">Blogs Hub</h1>
         <span>
           <i class="fa-solid fa-angles-down fa-fade fa-2xl"></i>
         </span>
@@ -53,31 +53,30 @@ background-size: cover;font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-s
     </div>
 
     <div class="h-50 d-flex align-items-center justify-content-center">
-      <form action="/createUsers" method="post">
+      <form action="/createBlogs/<%= user._id%>" method="post">
         <div class="input-group input-group-lg">
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-car-side fa-xs"></i></span>
+            <!-- <span class="input-group-text"><i class="fa-solid fa-car-side fa-xs"></i></span>
             <input
               name="username"
               type="text"
               class="form-control"
               placeholder="username"
               required
+            /> -->
+            <span class="input-group-text"><i class="fa-solid fa-car-side fa-xs"></i></span>
+            <input
+              name="title"
+              type="text"
+              class="form-control"
+              placeholder="Blog Title"
+              required
             />
             <span class="input-group-text"><i class="fa-solid fa-car fa-xs"></i></span>
-            <input 
-            name="email" 
-            type="email"
+            <textarea name="model" type="text"
             class="form-control"
-            placeholder="email"
-            required/>
-            <span class="input-group-text"><i class="fa-solid fa-car fa-xs"></i></span>
-            <input 
-            name="password" 
-            type="password"
-            class="form-control"
-            placeholder="password"
-            required/>
+            placeholder="Blog"
+            required cols="30" rows="10"></textarea>
           </div>
           <div class="input-group mt-4 d-flex justify-content-center">
             <input class="btn btn-primary" style="width: 8rem" type="submit"></input>
@@ -85,7 +84,6 @@ background-size: cover;font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-s
         </div>
       </form>
     </div>
-
     <!-- BOOTSTRAP -->
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

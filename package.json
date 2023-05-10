@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./controllers/app.js"
+    "start": "node ./controllers/app.js",
+    "dev": "npx nodemon ./controllers/app.js"
   },
   "repository": {
     "type": "git",

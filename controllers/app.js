@@ -1,6 +1,8 @@
 const express = require("express");
 const url = require("mongoose");
 const BlogsDB = require("../modules/Blogs");
+const UsersDB = require("../modules/Users");
+const BankDB = require("../modules/BankAccount");
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -22,14 +24,44 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  UsersDB.find()
+    .then((users) => {
+      BlogsDB.find()
+        .then((blogs) => {
+          res.render("home.ejs", {
+            user: users,
+            blog: blogs,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // BlogsDB.find()
+  //   .then((blog) => {
+  //     UsersDB.findById()
+  //       .then((user) => {
+  //         res.render("home.ejs", {
+  //           blog: blog,
+  //           user: user,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
-//rendring create users form
 app.get("/createUsers", (req, res) => {
-  BlogsDB.find()
+  UsersDB.find()
     .then((data) => {
-      res.render("createUsers.ejs", { blog: data });
+      res.render("createUsers.ejs", { user: data });
     })
     .catch((err) => {
       console.log(err);
@@ -37,23 +69,66 @@ app.get("/createUsers", (req, res) => {
 });
 
 app.post("/createUsers", (req, res) => {
-  const newBlog = new BlogsDB({
-    title: req.body.title,
-    body: req.body.model,
+  const newUser = new UsersDB({
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email,
   });
-  newBlog
+  newUser
     .save()
-    .then(() => {
-      res.redirect("/createUsers");
+    .then((data) => {
+      res.render("createBlogs.ejs", { user: data });
     })
     .catch((err) => {
       console.log(err);
     });
 });
 
+//rendring create users form
+// app.get("/createBlogs", (req, res) => {
+//   BlogsDB.find()
+//     .then((data) => {
+//       res.render("createBlogs.ejs", { blog: data });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+app.post("/createBlogs/:id", (req, res) => {
+  const author = req.params.id;
+  const newBlog = new BlogsDB({
+    title: req.body.title,
+    body: req.body.model,
+    author: author,
+  });
+  newBlog
+    .save()
+    .then((savedBlog) => {
+      UsersDB.findById(author)
+        .then((user) => {
+          user.userBlogs.push(savedBlog._id);
+          user
+            .save()
+            .then(() => {
+              res.redirect("/");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 //displaying blog details
 app.get("/blogDetail/:id", (req, res) => {
-  BlogsDB.findById(req.params.id)
+  UsersDB.findById(req.params.id).then(() => {});
+  BlogsDB.find()
     .then((data) => {
       res.render("blogDetails.ejs", { blog: data });
     })
@@ -66,7 +141,7 @@ app.get("/blogDetail/:id", (req, res) => {
 app.get("/blogDelete/:id", (req, res) => {
   BlogsDB.findByIdAndDelete(req.params.id)
     .then(() => {
-      res.redirect("/createUsers");
+      res.redirect("/");
     })
     .catch((err) => {
       console.log(err);
@@ -90,7 +165,33 @@ app.post("/blogUpdate/:id", (req, res) => {
     body: req.body.body,
   })
     .then(() => {
-      res.redirect("/createUsers");
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/bankDetail/:id", (req, res) => {
+  const newAccount = new BankDB({
+    accountNum: "123456789",
+    amount: "1000000",
+    userId: req.params.id,
+  });
+  newAccount
+    .save()
+    .then((savedAccount) => {
+      console.log(savedAccount);
+      UsersDB.findById(req.params.id)
+        .then((data) => {
+          console.log("=============");
+          console.log(data);
+          console.log("=============");
+          res.render("bankDetails.ejs", { user: data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -100,5 +201,5 @@ app.post("/blogUpdate/:id", (req, res) => {
 const port = process.env.PORT || 8080;
 //testing port 8080
 app.listen(port, () => {
-  console.log("Server is running on port 5050");
+  console.log("Server is running on port 8080");
 });

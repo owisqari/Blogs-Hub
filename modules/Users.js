@@ -7,7 +7,16 @@ const usersSchema = new Schema(
     username: String,
     password: String,
     email: String,
-    role: String,
+    userBlogs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Blogs",
+      },
+    ],
+    userAccount: {
+      type: Schema.Types.ObjectId,
+      ref: "BankAccount",
+    },
   },
   {
     timestamps: true,
