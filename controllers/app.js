@@ -40,22 +40,6 @@ app.get("/", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-  // BlogsDB.find()
-  //   .then((blog) => {
-  //     UsersDB.findById()
-  //       .then((user) => {
-  //         res.render("home.ejs", {
-  //           blog: blog,
-  //           user: user,
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
 });
 
 app.get("/createUsers", (req, res) => {
@@ -177,7 +161,7 @@ app.post("/blogUpdate/:id", (req, res) => {
     });
 });
 
-app.get("/bankDetail/:id", (req, res) => {
+app.get("/CreatebankAccount/:id", (req, res) => {
   const newAccount = new BankDB({
     accountNum: "123456789",
     amount: "1000000",
@@ -186,13 +170,17 @@ app.get("/bankDetail/:id", (req, res) => {
   newAccount
     .save()
     .then((savedAccount) => {
-      console.log(savedAccount);
       UsersDB.findById(req.params.id)
-        .then((data) => {
-          console.log("=============");
-          console.log(data);
-          console.log("=============");
-          res.render("bankDetails.ejs", { user: data });
+        .then((user) => {
+          user.userAccount = savedAccount._id;
+          user
+            .save()
+            .then(() => {
+              res.redirect("/");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
