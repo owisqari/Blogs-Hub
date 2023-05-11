@@ -13,6 +13,12 @@ const usersSchema = new Schema(
         ref: "Blogs",
       },
     ],
+    tags: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "tag",
+      },
+    ],
     userAccount: {
       type: Schema.Types.ObjectId,
       ref: "BankAccount",

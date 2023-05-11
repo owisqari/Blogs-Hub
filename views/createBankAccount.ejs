@@ -45,7 +45,7 @@ background-size: cover;font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-s
   <body>
     <div class="h-25">
       <div class="box">
-        <h1 style="font-size: 80px">Blogs Hub</h1>
+        <h1 style="font-size: 80px">Create Bank Account</h1>
         <span>
           <i class="fa-solid fa-angles-down fa-fade fa-2xl"></i>
         </span>
@@ -53,34 +53,32 @@ background-size: cover;font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-s
     </div>
 
     <div class="h-50 d-flex align-items-center justify-content-center">
-      <form action="/createBlogs/<%= user._id%>" method="post">
+      <form action="CreatebankAccount" method="post">
         <div class="input-group input-group-lg">
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="fa-solid fa-car-side fa-xs"></i></span>
             <input
-              name="title"
+              name="accountNum"
               type="text"
               class="form-control"
-              placeholder="Blog Title"
+              placeholder="accountNum"
               required
             />
             <span class="input-group-text"><i class="fa-solid fa-car fa-xs"></i></span>
-            <textarea name="model" type="text"
+            <input 
+            name="amount" 
+            type="text"
             class="form-control"
-            placeholder="Blog"
-            required cols="30" rows="10"></textarea>
+            placeholder="amount"
+            required/>
           </div>
-          <select class="form-select" multiple aria-label="Default select example">
-            <% for( let t of Tagdate) { %>
-              <option value="<%= t._id %>"></option>
-            <% } %>
-          </select>
           <div class="input-group mt-4 d-flex justify-content-center">
             <input class="btn btn-primary" style="width: 8rem" type="submit"></input>
           </div>
         </div>
       </form>
     </div>
+
     <!-- BOOTSTRAP -->
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -1,11 +1,11 @@
-const express = require("express");
+const app = require("express")();
 const url = require("mongoose");
-const BlogsDB = require("../modules/Blogs");
-const UsersDB = require("../modules/Users");
-const BankDB = require("../modules/BankAccount");
+const BlogsDB = require("./modules/Blogs");
+const UsersDB = require("./modules/Users");
+const BankDB = require("./modules/BankAccount");
+const TagsDB = require("./modules/Tags");
 const bodyParser = require("body-parser");
 
-const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
 url
@@ -60,24 +60,33 @@ app.post("/createUsers", (req, res) => {
   });
   newUser
     .save()
-    .then((data) => {
-      res.render("createBlogs.ejs", { user: data });
+    .then(() => {
+      res.redirect("/createBlogs");
     })
     .catch((err) => {
       console.log(err);
     });
 });
 
-//rendring create users form
-// app.get("/createBlogs", (req, res) => {
-//   BlogsDB.find()
-//     .then((data) => {
-//       res.render("createBlogs.ejs", { blog: data });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
+// rendring create users form
+app.get("/createBlogs", (req, res) => {
+  TagsDB.find()
+    .then((Tagdata) => {
+      BlogsDB.find()
+        .then((Blogdata) => {
+          res.render("createBlogs.ejs", {
+            blog: Blogdata,
+            tag: Tagdata,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 app.post("/createBlogs/:id", (req, res) => {
   const author = req.params.id;
@@ -162,10 +171,19 @@ app.post("/blogUpdate/:id", (req, res) => {
 });
 
 app.get("/CreatebankAccount/:id", (req, res) => {
+  UsersDB.findById(req.params.id)
+    .then(() => {
+      res.render("createBankAccount.ejs");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+app.post("/CreatebankAccount/:id", (req, res) => {
+  const userId = req.params.id;
   const newAccount = new BankDB({
-    accountNum: "123456789",
-    amount: "1000000",
-    userId: req.params.id,
+    accountNum: req.body.accountNum,
+    amount: req.body.amount,
   });
   newAccount
     .save()
