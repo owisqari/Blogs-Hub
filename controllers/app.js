@@ -127,10 +127,15 @@ app.post("/createBlogs/:id", (req, res) => {
 });
 //displaying blog details
 app.get("/blogDetail/:id", (req, res) => {
-  UsersDB.findById(req.params.id).then(() => {});
-  BlogsDB.find()
-    .then((data) => {
-      res.render("blogDetails.ejs", { blog: data });
+  UsersDB.findById(req.params.id)
+    .then((user) => {
+      BlogsDB.findById(user.userBlogs[0])
+        .then((data) => {
+          res.render("blogDetails.ejs", { blog: data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);

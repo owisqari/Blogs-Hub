@@ -68,10 +68,10 @@
           <h2>Blog author:</h2>
         
         </div>
-        <div class="card-body text-center m-lg-2">
+        <div class="card-body text-center m-lg-2 d-flex flex-column justify-content-center align-content-center">
           <p><%= user[y].username%></p>
           <a href="/blogDetail/<%=user[y]._id%>" class="link-primary">show details</a>
-          <a href="/bankDetail/<%=user[y]._id%>" class="link-warning">Bank Account</a>
+          <a href="/bankDetail/<%=user[y]._id%>" class="link-warning">Create Bank Account</a>
           <a href="/blogUpdate/<%=x._id%>"  class="link-success">Update</a>
           <a href="/blogDelete/<%=x._id%>" class="link-danger">delete</a>
         </div>
