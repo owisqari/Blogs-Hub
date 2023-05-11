@@ -69,7 +69,9 @@
         
         </div>
         <div class="card-body text-center m-lg-2">
-        
+          <p><%= user[y].username%></p>
+          <a href="/blogDetail/<%=user[y]._id%>" class="link-primary">show details</a>
+          <a href="/bankDetail/<%=user[y]._id%>" class="link-warning">Bank Account</a>
           <a href="/blogUpdate/<%=x._id%>"  class="link-success">Update</a>
           <a href="/blogDelete/<%=x._id%>" class="link-danger">delete</a>
         </div>
